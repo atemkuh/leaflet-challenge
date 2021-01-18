@@ -86,6 +86,11 @@ function createEQMap(plates,earthQuakes) {
         "Gray Scale Map": graymap,
         "Color Map": normalMap
       };
+// Create overlayMaps to hold overlay layers
+    var overlayMaps = {
+        "Fault Lines": plates,
+        Earthquakes: earthQuakes
+    };
 
 
 }

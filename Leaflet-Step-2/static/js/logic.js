@@ -91,6 +91,12 @@ function createEQMap(plates,earthQuakes) {
         "Fault Lines": plates,
         Earthquakes: earthQuakes
     };
+//map
+    var myMap = L.map("map", { 
+        center: [39.83, -98.58],
+        zoom: 5,
+        layers: [satellite, plates, earthQuakes]
+      });
 
 
 }

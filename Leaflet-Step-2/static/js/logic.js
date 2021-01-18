@@ -80,6 +80,12 @@ function createEQMap(plates,earthQuakes) {
         accessToken: "pk.eyJ1Ijoiam9lYXRlbWt1aCIsImEiOiJja2pwemF5OTk1eGFpMnlwOXJsbnh2aGw0In0.jBzzLlnxkEDjkcm4a9_NzQ"
 
     });
+// create baseMaps object to hold base layers
+    var baseMaps = {
+        "Satellite": satellite,
+        "Gray Scale Map": graymap,
+        "Color Map": normalMap
+      };
 
 
 }

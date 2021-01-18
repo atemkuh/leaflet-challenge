@@ -71,6 +71,26 @@ function createEQMap(earthQuakeInfo) {
          layers: [normalMap, earthQuakeInfo]
      });
  
+     L.control.layers(baseMaps, overlayMaps, {collapsed: false})
+              .addTo(map);
+ 
+     var legend = L.control({position: 'bottomright'});
+   
+     legend.onAdd = function (map) {    
+         var div = L.DomUtil.create('div', 'info legend'),
+         grades = [0, 1, 2, 3, 4],
+         labels = [];
+   
+         div.innerHTML+='Magnitude<br><hr>'
+     
+         for (var i = 0; i < grades.length; i++) {
+             div.innerHTML +=
+                 '<i style="background:' + getColor(grades[i] + 1) + '">&nbsp&nbsp&nbsp&nbsp</i> ' +
+                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+     }
+     return div;
+    };
     
+    legend.addTo(map);
 
 };

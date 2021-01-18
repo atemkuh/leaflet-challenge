@@ -13,5 +13,16 @@ function features(earthQuakeData){
             "</h3><p><u>Magnitude:</u> " + feature.properties.mag + "</p>");
     }
 
+    var earthQuakeInfo =L.geoJSON(earthQuakeData, {
+
+        featureStatus:featureStatus,
+        renderLayer: function(feature, latlng){
+            var geoJsonMarker ={ radius: 4*feature.properties.mag,
+            fillColor:getcolor(feature.properties.mag), colorr: "black", weight:1, opacity:1,fillOpacity:0.8};
+            return L.squareMaker(latlng,geoJsonMarker);
+        }
+    });
+
+
 
 }

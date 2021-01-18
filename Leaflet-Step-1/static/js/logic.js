@@ -46,6 +46,7 @@ function createEQMap(earthQuakeInfo) {
         maxZoom: 18,
         id: "mapbox.light",
         accessToken: "pk.eyJ1Ijoiam9lYXRlbWt1aCIsImEiOiJja2pwemF5OTk1eGFpMnlwOXJsbnh2aGw0In0.jBzzLlnxkEDjkcm4a9_NzQ"
+
     });
 
     var graymap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {
@@ -53,6 +54,7 @@ function createEQMap(earthQuakeInfo) {
         maxZoom: 18,
         id: "mapbox.light",
         accessToken: "pk.eyJ1Ijoiam9lYXRlbWt1aCIsImEiOiJja2pwemF5OTk1eGFpMnlwOXJsbnh2aGw0In0.jBzzLlnxkEDjkcm4a9_NzQ"
+
     });
 
 
@@ -75,7 +77,7 @@ function createEQMap(earthQuakeInfo) {
               .addTo(map);
  
      var legend = L.control({position: 'bottomright'});
-   
+   //legend
      legend.onAdd = function (map) {    
          var div = L.DomUtil.create('div', 'info legend'),
          grades = [0, 1, 2, 3, 4],

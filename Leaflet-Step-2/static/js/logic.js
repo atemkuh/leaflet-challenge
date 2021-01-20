@@ -123,13 +123,23 @@ d3.json(link2,function(response){
 
   }
 
+// circle color
+  function chooseColor(mag){
+        switch(true){
+            case (mag<1):
+                return "#b892ff";
+            case (mag<2):
+                return "#F4F269";
+            case (mag<3):
+                return "#90e0ef";
+            case (mag<4):
+                return "#FF7B87";
+            case (mag<5):
+                return "#e01e37";
+            default:
+                return "#680070";;
+    };
+}
 
 
-
-
-
-
-
-
-
-};
+}

@@ -6,7 +6,9 @@ d3.json(link2,function(response){
     plates = L.geoJSON(response,{  
         style: function(feature){
             return {
-                color:"red",fillColor: "white", fillOpacity:0
+                color:"#815839",
+                fillColor: "#f0efeb",
+                fillOpacity:0
             }
         },      
         featureStatus: function(feature,layer){
@@ -17,7 +19,7 @@ d3.json(link2,function(response){
     })
 
     
-    var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+    var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
     
 
@@ -29,9 +31,9 @@ d3.json(link2,function(response){
             radius:feature.properties.mag*4,
             fillColor: chooseColor(feature.properties.mag),
             color: "white",
-            weight: 1,
+            weight: 0.5,
             opacity: 1,
-            fillOpacity: 0.6
+            fillOpacity: 0.75
         }
         return L.circleMarker( latlng, options );
 
@@ -52,11 +54,8 @@ d3.json(link2,function(response){
     
 });
 
+  function createEQMap(plates,earthQuakes) {
 
-
-function createEQMap(plates,earthQuakes) {
-
-    
     var satellite = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
       attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
       maxZoom: 18,
@@ -65,38 +64,72 @@ function createEQMap(plates,earthQuakes) {
 
     });
   
-    var normalMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/outdoors-v9/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {
-        attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>",
-        maxZoom: 18,
-        id: "mapbox.light",
-        accessToken: "pk.eyJ1Ijoiam9lYXRlbWt1aCIsImEiOiJja2pwemF5OTk1eGFpMnlwOXJsbnh2aGw0In0.jBzzLlnxkEDjkcm4a9_NzQ"
+    var graymap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+      attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+      maxZoom: 18,
+      id: "mapbox.light",
+      accessToken: "pk.eyJ1Ijoiam9lYXRlbWt1aCIsImEiOiJja2pwemF5OTk1eGFpMnlwOXJsbnh2aGw0In0.jBzzLlnxkEDjkcm4a9_NzQ"
 
     });
 
-    var graymap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {
-        attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>",
-        maxZoom: 18,
-        id: "mapbox.light",
-        accessToken: "pk.eyJ1Ijoiam9lYXRlbWt1aCIsImEiOiJja2pwemF5OTk1eGFpMnlwOXJsbnh2aGw0In0.jBzzLlnxkEDjkcm4a9_NzQ"
+    var normalMap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+      attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+      maxZoom: 18,
+      id: "mapbox.outdoors",
+      accessToken: "pk.eyJ1Ijoiam9lYXRlbWt1aCIsImEiOiJja2pwemF5OTk1eGFpMnlwOXJsbnh2aGw0In0.jBzzLlnxkEDjkcm4a9_NzQ"
 
     });
+  
 // create baseMaps object to hold base layers
     var baseMaps = {
         "Satellite": satellite,
         "Gray Scale Map": graymap,
         "Color Map": normalMap
       };
+  
 // Create overlayMaps to hold overlay layers
     var overlayMaps = {
-        "Fault Lines": plates,
-        Earthquakes: earthQuakes
+      "Fault Lines": plates,
+      Earthquakes: earthQuakes
     };
+  
 //map
-    var myMap = L.map("map", { 
-        center: [39.83, -98.58],
-        zoom: 5,
-        layers: [satellite, plates, earthQuakes]
-      });
+    var myMap = L.map("map", {
+      center: [
+        37.0902405,-95.7128906
+      ],
+      zoom: 4,
+      layers: [satellite, plates, earthQuakes]
+    });
+  
+    
+    // Add the layer control to the map
+    L.control.layers(baseMaps, overlayMaps, {
+      collapsed: false
+    }).addTo(myMap);
+
+    var info = L.control({
+        position: "bottomright"
+    });
+
+    info.onAdd = function(){
+        var div = L.DomUtil.create("div","legend");
+        return div;
+    }
+
+    info.addTo(myMap);
+
+    document.querySelector(".legend").innerHTML=displayLegend();
+
+  }
 
 
-}
+
+
+
+
+
+
+
+
+};

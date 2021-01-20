@@ -141,5 +141,35 @@ d3.json(link2,function(response){
     };
 }
 
+function displayLegend(){
+    var legendInfo = [{
+                limit: "Mag: 0-1",
+                color: "#b892ff"
+            },{
+                limit: "Mag: 1-2",
+                color: "#F4F269"
+            },{
+                limit:"Mag: 2-3",
+                color:"#90e0ef"
+            },{
+                limit:"Mag: 3-4",
+                color:"#FF7B87"
+            },{
+                limit:"Mag: 4-5",
+                color:"#e01e37"
+            },{
+                limit:"Mag: 5+",
+                color:"#680070"
+            
+    }];
 
-}
+    var header = "<h3>Magnitude</h3><hr>";
+
+    var strng = "";
+   
+    for (i = 0; i < legendInfo.length; i++){
+        strng += "<p style = \"background-color: "+legendInfo[i].color+"\">"+legendInfo[i].limit+"</p> ";
+    }
+    
+    return header+strng;
+};
